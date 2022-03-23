@@ -1,0 +1,44 @@
+name: k8s_deploy_test
+
+on:
+  push:
+    branches:
+      - develop
+
+env:
+  IMAGE: erriy/harvest-web
+  TAG: ${{ github.sha }}
+  ACTOR: ${{ github.actor }}
+  KUBECTL_VERSION: v1.22.7
+  CONFIG: k8s/test.yml
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build and push image to Docker Hub
+      run: |
+        docker build -t "$IMAGE:$TAG" .
+        docker push "$IMAGE:$TAG"
+
+    - name: change image and print config
+      run: |
+        sed -i 's#DOCKER_IMAGE#${{ env.IMAGE }}:${{ env.TAG }}#g' ${{ env.CONFIG }}
+        cat ${{ env.CONFIG }}
+
+    - name: deploy
+      uses: steebchen/kubectl@v2.0.0
+      with:
+        config: ${{ secrets.KUBE_CONFIG_DATA }}
+        version: ${{ env.KUBECTL_VERSION }}
+        command: apply -f ${{ env.CONFIG }}
