@@ -9,7 +9,9 @@
   },
   "dependencies": {
     "ant-design-vue": "^1.7.8",
+    "axios": "^0.26.1",
     "core-js": "^3.6.5",
+    "js-sha512": "^0.8.0",
     "vue": "^2.6.11"
   },
   "devDependencies": {
