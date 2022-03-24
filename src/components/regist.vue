@@ -16,7 +16,7 @@
             <a-icon slot="prefix" type="user-add" />
         </a-input>
         <div style="margin:20px"></div>
-        <a-button style="width:400px" type="primary" @click="regist">注册</a-button>
+        <a-button style="width:400px" type="primary" :loading='loading' @click="regist">注册</a-button>
         <div style="margin:10px"></div>
         <!-- <div style="float:right;">
             <router-link to="/login">已有账号？点击登录</router-link>
@@ -32,6 +32,7 @@ export default {
             password1: '',
             password2: '',
             invite_code: '',
+            loading: false,
         }
     },
     methods: {
@@ -52,11 +53,21 @@ export default {
                 this.$message.error('请输入邀请码');
                 return;
             }
-            await this.$api.user.regist({
-                username: this.username,
-                password: this.password1,
-                invite_code: this.invite_code
-            });
+            this.loading = true;
+            try {
+                const res = await this.$api.user.regist({
+                    username: this.username,
+                    password: this.password1,
+                    invite_code: this.invite_code
+                });
+                if(200 === res.code) {
+                    this.$message.success('注册成功');
+                } else {
+                    this.$message.error(res.message);
+                }
+            } finally {
+                this.loading = false;
+            }
         }
     }
 }

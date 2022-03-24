@@ -16,18 +16,30 @@ const user = {
         password='',
         invite_code=''
     }={}) {
-        const res = await axios_client.post('/user/regist', {
-            username,
-            password: this.password_hash(username, password),
-            invite_code
-        });
-        console.log(res.data());
+        try {
+            const res = await axios_client.post('/user/regist', {
+                username,
+                password: this.password_hash(username, password),
+                invite_code
+            });
+            return res.data;
+        } catch(e) {
+            return e.response.data;
+        }
     },
     async login({
         username='',
         password=''
     }) {
-        console.log(username, password);
+        try {
+            const res = await axios_client.post('/user/login', {
+                username,
+                password: this.password_hash(username, password)
+            });
+            return res.data;
+        } catch(e) {
+            return e.response.data;
+        }
     },
 }
 
