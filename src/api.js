@@ -62,6 +62,19 @@ const seed = {
         } catch(e) {
             return e.response.data;
         }
+    },
+    async list({
+        page=1,
+        limit=20,
+        sort='time.update',
+        ending='asc'
+    }={}) {
+        try {
+            const res = await axios_client.get(`/seed?page=${page}&limit=${limit}&sort=${sort}&ending=${ending}`);
+            return res.data;
+        } catch(e) {
+            return e.response.data;
+        }
     }
 }
 
