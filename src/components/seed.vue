@@ -1,5 +1,6 @@
 <template>
     <div id='seed'>
+        <div id="vditor" name="description" ></div>
         <a-date-picker
             v-model="seed.time.happen"
             show-time
@@ -58,9 +59,14 @@
 
 <script>
 const uuid = require('uuid');
+import Vditor from 'vditor'
+import "vditor/dist/index.css"
+
+
 export default {
     data() {
         return {
+            editor: null,
             status: {
                 new_tag: {
                     show: true,
@@ -124,6 +130,20 @@ export default {
                 }
             );
         },
+    },
+    mounted() {
+        this.editor = new Vditor("vditor", {
+            height:360,
+            toolbarConfig:{
+                pin:true
+            },
+            cache:{
+                enable:false
+            },
+            after:()=>{
+                this.editor.setValue("hello,Vditor+Vue!")
+            }
+        });
     }
 }
 </script>
