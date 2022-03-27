@@ -36,16 +36,40 @@ const user = {
                 username,
                 password: this.password_hash(username, password)
             });
+            axios_client.defaults.headers.common.Token = res.data.token;
             return res.data;
         } catch(e) {
             return e.response.data;
         }
     },
+    async logout() {
+        try {
+            const res = await axios_client.post('/user/logout');
+            delete axios_client.defaults.headers.common.Token;
+            return res.data;
+        } catch(e) {
+            return e.response.data;
+        }
+    }
 }
+
+
+const seed = {
+    async publish(seeds) {
+        try {
+            const res = await axios_client.put('/seed', seeds);
+            return res.data;
+        } catch(e) {
+            return e.response.data;
+        }
+    }
+}
+
 
 
 const api = {
     user,
+    seed,
 };
 
 export default {
