@@ -1,9 +1,9 @@
 const sha512 = require('js-sha512');
 const axios = require('axios').default;
 
-const host = process.env.NODE_ENV === 'development' ? 'http://localhost:80/': window.location.origin + '/api';
+const api_base_url = process.env.NODE_ENV === 'development' ? 'http://localhost:80/': window.location.origin + '/api';
 const axios_client = axios.create({
-    baseURL: host,
+    baseURL: api_base_url,
 });
 
 
