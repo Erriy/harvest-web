@@ -9,6 +9,10 @@
         </a-input-password>
         <div style="margin:20px"></div>
         <a-button style="width:400px" type="primary" :loading='loading' @click="login">登录</a-button>
+        <div style='margin: 10px'></div>
+        <div style='float:right'>
+            <router-link to='/regist'>没有账号，开始注册</router-link>
+        </div>
     </div>
 </template>
 
@@ -39,6 +43,7 @@ export default {
                 });
                 if(200 === res.code) {
                     this.$message.success('登录成功');
+                    this.$router.push('/list');
                 } else {
                     this.$message.error(res.message);
                 }
@@ -53,5 +58,10 @@ export default {
 <style>
 #login{
     width: 400px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
 }
 </style>

@@ -18,9 +18,9 @@
         <div style="margin:20px"></div>
         <a-button style="width:400px" type="primary" :loading='loading' @click="regist">注册</a-button>
         <div style="margin:10px"></div>
-        <!-- <div style="float:right;">
+        <div style="float:right;">
             <router-link to="/login">已有账号？点击登录</router-link>
-        </div> -->
+        </div>
     </div>
 </template>
 
@@ -76,5 +76,10 @@ export default {
 <style>
 #regist{
     width: 400px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
 }
 </style>
