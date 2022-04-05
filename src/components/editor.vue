@@ -12,7 +12,8 @@
             <a-col flex='auto'>
                 <a-tag
                     v-for='(tag, ti) in seed.tags'
-                    :key='ti'
+                    :key='tag'
+                    :index='ti'
                     closable
                     @close='remove_tag(tag)'
                 >
