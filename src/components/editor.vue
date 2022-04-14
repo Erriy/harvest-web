@@ -73,6 +73,7 @@
 </template>
 
 <script>
+const uuid = require('uuid');
 export default {
     data() {
         return {
@@ -92,9 +93,11 @@ export default {
             },
             publishing: false,
             seed: {
+                uri: `seed://${uuid.v1()}`,
                 time: {
+                    create: new Date().getTime(),
                     happen: {
-                        value: null,
+                        timestamp: null,
                         accuracy: 'second',
                     },
                 },
@@ -125,10 +128,15 @@ export default {
         },
         async publish() {
             this.publishing = true;
-            this.seed.time.happen.value = this.happen.time ? this.happen.time.valueOf() : null;
+            this.seed.time.happen.timestamp = this.happen.time ? this.happen.time.valueOf() : null;
             this.seed.time.happen.accuracy = this.happen.show_time ? 'second' : 'day';
             try {
-                await this.$api.seed.publish([this.seed])
+                const res = await this.$api.seed.publish([this.seed])
+                if(200 === res.code) {
+                    this.$message.success('已发布');
+                } else {
+                    this.$message.error(res.message);
+                }
             }
             finally {
                 this.publishing = false;

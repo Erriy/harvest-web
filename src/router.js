@@ -4,7 +4,7 @@ import regist from './components/regist';
 import home from './components/home';
 
 const routes = [
-    { path: '/', component: home },
+    { path: '/', component: login },
     { path: '/home', component: home },
     { path: '/login', component: login },
     { path: '/regist', component: regist },

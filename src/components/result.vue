@@ -6,7 +6,20 @@
             infinite-scroll-distance="10"
         >
             <div v-for="(s, index) in seeds" :key="index" >
-                {{JSON.stringify(s)}}
+                <a-button
+                    class="publisher"
+                    type="link"
+                >
+                    {{s._publisher}}
+                </a-button>
+                <div v-if="s.body">
+                    {{s.body.data}}
+                </div>
+                <div style="margin: 20px"></div>
+                <a-tag v-for="(tag, ti) in s.tags" :key="ti">
+                    {{tag}}
+                </a-tag>
+                <a-divider dashed />
             </div>
         </div>
         <a-spin :spinning="loading" id='spin' tip="加载中" />
@@ -19,7 +32,7 @@ export default {
         return {
             seeds: [],
             page: 1,
-            limit: 1,
+            limit: 20,
             loading: false,
             disable: false,
         }
@@ -55,5 +68,12 @@ export default {
     margin: auto;
     position: absolute;
     width: 720px;
+}
+.publisher {
+    float: right;
+    position: relative;
+    top: -15px;
+    right: 10px;
+    z-index: 999;
 }
 </style>

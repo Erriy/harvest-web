@@ -1,5 +1,6 @@
 <template>
     <div id='home'>
+        <div style="margin:20px"></div>
         <a-layout>
             <a-layout-content>
                 <editor/>

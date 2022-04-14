@@ -43,7 +43,7 @@ export default {
                 });
                 if(200 === res.code) {
                     this.$message.success('登录成功');
-                    this.$router.push('/list');
+                    this.$router.push('/home');
                 } else {
                     this.$message.error(res.message);
                 }
