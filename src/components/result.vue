@@ -33,6 +33,7 @@ export default {
             seeds: [],
             page: 1,
             limit: 20,
+            ending: 'desc',
             loading: false,
             disable: false,
         }
@@ -46,6 +47,7 @@ export default {
                 const result = await this.$api.seed.list({
                     page: this.page,
                     limit: this.limit,
+                    ending: this.ending,
                 });
                 if(result.seeds.length  === 0) {
                     has_more = false;
