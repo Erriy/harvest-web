@@ -36,7 +36,34 @@ const user = {
                 username,
                 password: this.password_hash(username, password)
             });
+            localStorage.setItem('token', res.data.token);
             axios_client.defaults.headers.common.Token = res.data.token;
+            return res.data;
+        } catch(e) {
+            return e.response.data;
+        }
+    },
+
+    async already_login() {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            return false;
+        }
+        axios_client.defaults.headers.common.Token = token;
+        try {
+            await this.info();
+            return true;
+        }
+        catch(e) {
+            delete axios_client.defaults.headers.common.Token;
+            localStorage.removeItem('token');
+            return false
+        }
+
+    },
+    async info() {
+        try {
+            const res = await axios_client.get('/user');
             return res.data;
         } catch(e) {
             return e.response.data;
@@ -46,6 +73,7 @@ const user = {
         try {
             const res = await axios_client.post('/user/logout');
             delete axios_client.defaults.headers.common.Token;
+            localStorage.removeItem('token');
             return res.data;
         } catch(e) {
             return e.response.data;
