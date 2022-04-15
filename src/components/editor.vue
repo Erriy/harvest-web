@@ -126,7 +126,7 @@ export default {
         remove_tag(tag) {
             this.seed.tags.splice(this.seed.tags.indexOf(tag), 1);
         },
-        cleanup_seed() {
+        cleanup() {
             this.seed = {
                 uri: `seed://${uuid.v1()}`,
                 time: {
@@ -142,6 +142,8 @@ export default {
                 },
                 tags: [],
             };
+
+            this.happen.time = null;
         },
         async publish() {
             this.publishing = true;
@@ -151,7 +153,7 @@ export default {
                 delete seed.time.happen;
             }
             else {
-                seed.time.happend = {
+                seed.time.happen = {
                     timestamp: this.happen.time.valueOf(),
                     accuracy: this.happen.show_time ? 'second' : 'day',
                 }
@@ -160,7 +162,7 @@ export default {
             try {
                 const res = await this.$api.seed.publish([seed])
                 if(200 === res.code) {
-                    this.cleanup_seed();
+                    this.cleanup();
                     this.$message.success('已发布');
                 } else {
                     this.$message.error(res.message);
