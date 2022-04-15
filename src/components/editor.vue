@@ -126,13 +126,41 @@ export default {
         remove_tag(tag) {
             this.seed.tags.splice(this.seed.tags.indexOf(tag), 1);
         },
+        cleanup_seed() {
+            this.seed = {
+                uri: `seed://${uuid.v1()}`,
+                time: {
+                    create: new Date().getTime(),
+                    happen: {
+                        timestamp: null,
+                        accuracy: 'second',
+                    },
+                },
+                body: {
+                    data: '',
+                    type: 'text',
+                },
+                tags: [],
+            };
+        },
         async publish() {
             this.publishing = true;
-            this.seed.time.happen.timestamp = this.happen.time ? this.happen.time.valueOf() : null;
-            this.seed.time.happen.accuracy = this.happen.show_time ? 'second' : 'day';
+
+            const seed = JSON.parse(JSON.stringify(this.seed));
+            if(!this.happen.time) {
+                delete seed.time.happen;
+            }
+            else {
+                seed.time.happend = {
+                    timestamp: this.happen.time.valueOf(),
+                    accuracy: this.happen.show_time ? 'second' : 'day',
+                }
+            }
+
             try {
-                const res = await this.$api.seed.publish([this.seed])
+                const res = await this.$api.seed.publish([seed])
                 if(200 === res.code) {
+                    this.cleanup_seed();
                     this.$message.success('已发布');
                 } else {
                     this.$message.error(res.message);
