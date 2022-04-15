@@ -23,6 +23,7 @@
             </div>
         </div>
         <a-spin :spinning="loading" id='spin' tip="加载中" />
+        <div v-if="disable && !loading" style="text-align: center; color:gray; margin: 20px;">已经到底了</div>
     </div>
 </template>
 
