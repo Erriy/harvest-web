@@ -164,6 +164,9 @@ export default {
                 if(200 === res.code) {
                     this.cleanup();
                     this.$message.success('已发布');
+                    setTimeout(() => {
+                        this.$router.go();
+                    }, 500);
                 } else {
                     this.$message.error(res.message);
                 }
