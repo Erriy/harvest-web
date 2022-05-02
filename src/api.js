@@ -50,16 +50,13 @@ const user = {
             return false;
         }
         axios_client.defaults.headers.common.Token = token;
-        try {
-            await this.info();
-            return true;
-        }
-        catch(e) {
+        const resp = await this.info();
+        if(resp.code !== 200) {
             delete axios_client.defaults.headers.common.Token;
             localStorage.removeItem('token');
-            return false
+            return false;
         }
-
+        return true;
     },
     async info() {
         try {
