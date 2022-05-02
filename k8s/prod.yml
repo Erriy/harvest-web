@@ -1,26 +1,26 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: harvest-test
+  name: harvest
   annotations:
     kubernetes.io/ingress.class: "nginx"
 spec:
   rules:
-  - host: harvest-test.on1y.net
+  - host: harvest.on1y.net
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: harvest-test
+            name: harvest
             port:
               number: 80
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: harvest-test
+  name: harvest
 spec:
   ports:
     - name: http
@@ -28,19 +28,19 @@ spec:
       protocol: TCP
       targetPort: 80
   selector:
-    app: harvest-test
+    app: harvest
   sessionAffinity: ClientIP
   type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: harvest-test
+  name: harvest
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: harvest-test
+      app: harvest
   strategy:
     rollingUpdate:
       maxSurge: 75%
@@ -49,15 +49,15 @@ spec:
   template:
     metadata:
       labels:
-        app: harvest-test
+        app: harvest
     spec:
       containers:
-      - name: harvest-test
+      - name: harvest
         image: erriy/harvest-web:latest
         resources:
           limits:
-            cpu: 100m
-            memory: 100Mi
+            cpu: 200m
+            memory: 200Mi
           requests:
             cpu: 100m
             memory: 100Mi
