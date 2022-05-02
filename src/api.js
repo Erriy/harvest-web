@@ -100,6 +100,15 @@ const seed = {
         } catch(e) {
             return e.response.data;
         }
+    },
+    async delete(uri) {
+        const b64_uri = Buffer.from(uri).toString('base64');
+        try {
+            const res = await axios_client.delete(`/seed/${b64_uri}`);
+            return res.data;
+        } catch(e) {
+            return e.response.data;
+        }
     }
 }
 

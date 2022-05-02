@@ -6,19 +6,7 @@
             infinite-scroll-distance="10"
         >
             <div v-for="(s, index) in seeds" :key="index" >
-                <a-button
-                    class="publisher"
-                    type="link"
-                >
-                    {{s._publisher}}
-                </a-button>
-                <div v-if="s.body">
-                    {{s.body.data}}
-                </div>
-                <div style="margin: 20px"></div>
-                <a-tag v-for="(tag, ti) in s.tags" :key="ti">
-                    {{tag}}
-                </a-tag>
+                <seed :seed="s" @delete="delete_seed(index)" />
                 <a-divider dashed />
             </div>
         </div>
@@ -28,7 +16,12 @@
 </template>
 
 <script>
+import seed from './seed.vue';
+
 export default {
+    components: {
+        seed,
+    },
     data() {
         return {
             seeds: [],
@@ -40,6 +33,9 @@ export default {
         }
     },
     methods: {
+        delete_seed(index) {
+            this.seeds.splice(index, 1);
+        },
         async loadMore() {
             let has_more = true;
             this.disable = true;
@@ -71,12 +67,5 @@ export default {
     margin: auto;
     position: absolute;
     width: 720px;
-}
-.publisher {
-    float: right;
-    position: relative;
-    top: -15px;
-    right: 10px;
-    z-index: 999;
 }
 </style>
