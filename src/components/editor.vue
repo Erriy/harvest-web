@@ -180,5 +180,8 @@ export default {
 </script>
 
 <style>
-
+#editor {
+    width: 720px;
+    margin: 0 auto;
+}
 </style>

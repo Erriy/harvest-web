@@ -4,7 +4,9 @@
         <a-layout>
             <a-layout-content>
                 <editor/>
-                <a-divider/>
+                <div id='divider'>
+                    <a-divider />
+                </div>
                 <result/>
             </a-layout-content>
         </a-layout>
@@ -24,7 +26,7 @@ export default {
 </script>
 
 <style>
-#home {
+#divider {
     width: 720px;
     margin: 0 auto;
 }

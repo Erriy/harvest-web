@@ -44,6 +44,7 @@
                     :index='ti'
                     :closable="edit_mode"
                     @close='remove_tag(tag)'
+                    @click="click_tag(tag)"
                 >
                     {{ tag }}
                 </a-tag>
@@ -171,6 +172,9 @@ export default {
         },
         remove_tag(tag) {
             this.seed.tags.splice(this.seed.tags.indexOf(tag), 1);
+        },
+        click_tag(tag) {
+            this.$emit('click_tag', tag);
         },
         async save_seed() {
             this.publishing = true;

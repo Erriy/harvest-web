@@ -92,10 +92,12 @@ const seed = {
         page=1,
         limit=20,
         sort='time.update',
-        ending='asc'
+        ending='asc',
+        tags=[],
+        mode='or',
     }={}) {
         try {
-            const res = await axios_client.get(`/seed?page=${page}&limit=${limit}&sort=${sort}&ending=${ending}`);
+            const res = await axios_client.get(`/seed?page=${page}&limit=${limit}&sort=${sort}&ending=${ending}&tags=${tags.join(',')}&mode=${mode}`);
             return res.data;
         } catch(e) {
             return e.response.data;
