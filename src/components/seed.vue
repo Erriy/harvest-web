@@ -7,6 +7,7 @@
             {{seed._publisher}}
         </a-button> -->
         <a-popconfirm
+            v-show="!edit_mode"
             placement="rightTop"
             title="确认删除？"
             ok-text="确定"
@@ -62,6 +63,37 @@
                     </a-tag>
                 </template>
             </a-col>
+            <a-col flex='200px'>
+                <div v-if="!edit_mode">
+                    <div v-if="seed.time.happen">
+                        {{happen.time}}
+                    </div>
+                </div>
+                <a-date-picker
+                    v-else
+                    v-model="happen.time"
+                    :show-time='happen.show_time'
+                    :format="happen.format[happen.show_time?1:0]"
+                    placeholder="发生时间"
+                    style="position: relative; top: -5px;"
+                >
+                    <template slot="renderExtraFooter">
+                        <a-row>
+                            <a-col>
+                                <a-switch v-model='happen.show_time' checked-children="显示时间" un-checked-children="不显示时间" default-checked />
+                            </a-col>
+                        </a-row>
+                    </template>
+                    <span>
+                        <a-button
+                            type='link'
+                            style="position: relative; top: 5px;"
+                        >
+                            {{happen.time? happen.time: '添加事件发生时间'}}
+                        </a-button>
+                    </span>
+                </a-date-picker>
+            </a-col>
             <a-col>
                 <div class="edit_or_save">
                     <a-button
@@ -86,6 +118,7 @@
 
 <script>
 const uuid = require('uuid');
+const moment = require("moment");
 
 export default {
     props: {
@@ -103,8 +136,24 @@ export default {
                     value: '',
                 },
             },
+            happen: {
+                show_time: false,
+                format: [
+                    'YYYY-MM-DD',
+                    'YYYY-MM-DD HH:mm:ss',
+                ],
+                time: null,
+            },
             publishing: false,
         }
+    },
+    watch: {
+        edit_mode(val) {
+            if (val && this.seed.time.happen) {
+                this.happen.time = new moment(this.seed.time.happen.timestamp);
+                this.happen.show_time = this.seed.time.happen.acccuracy === 'second';
+            }
+        },
     },
     methods: {
         show_tag_input() {
@@ -128,6 +177,15 @@ export default {
 
             const seed = JSON.parse(JSON.stringify(this.seed));
 
+            if(!this.happen.time) {
+                delete seed.time.happen;
+            }
+            else {
+                seed.time.happen = {
+                    timestamp: this.happen.time.valueOf(),
+                    accuracy: this.happen.show_time ? 'second' : 'day',
+                }
+            }
             try {
                 const res = await this.$api.seed.publish([seed])
 
@@ -164,6 +222,9 @@ export default {
     mounted() {
         if(!this.seed) {
             this.init_data();
+        }
+        if(this.seed.time.happen) {
+            this.happen.time = new moment(this.seed.time.happen.timestamp);
         }
     }
 }
