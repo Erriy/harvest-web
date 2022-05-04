@@ -1,61 +1,15 @@
 # harvest-web
 
-## Project setup
-```
-npm install
-```
+## todo
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-
-## 页面设计
-
-### 添加seed
-
-- [ ] 添加标签
-- [ ] 添加发生时间
-
-### 搜索seed
-
-- [ ] 列表滚动自动加载
-- [ ] 过滤方法
-  - [ ] 全文搜索
-  - [ ] 根据时间
-  - [ ] 根据publisher
-  - [ ] 时间
-    - [ ] 创建时间
-    - [ ] 发布时间
-    - [ ] 更新时间
-    - [ ] 发生时间
-  - [ ] 标签
-    - [ ] 添加标签
-    - [ ] 开关标签
-    - [ ] 标签过滤关系（合集、交集）
-- [ ] 排序方法
-  - [ ] 时间
-    - [ ] 创建时间
-    - [ ] 发布时间
-    - [ ] 更新时间
-    - [ ] 发生时间
-
-
-### 待定池
-
-- [ ] 修改别人的数据，进入等待逻辑，全社区投票表决
-
-
+- [x] 部署线上环境
+- [x] 列表和编辑
+  - [x] 编辑时支持编辑发生时间
+- [x] 支持按标签搜索
+- [ ] 编辑功能
+  - [ ] 固定标签，可以自动添加
+  - [ ] 支持#hashtag的形式添加标签
+  - [ ] 时间时区
+- [ ] 搜索结果展示
+  - [ ] 支持时间搜索
+  - [ ] 发布时不刷新直接加入列表
